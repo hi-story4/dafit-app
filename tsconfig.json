@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": "/Users/junhyeok-shin/Documents/src/다핏/dafit-app",
+
     "plugins": [
       {
         "name": "next"
