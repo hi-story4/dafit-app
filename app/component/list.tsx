@@ -10,7 +10,6 @@ type listComponentProps = {
 export default function ListComponent({
   title,
   nickname,
-
   heart,
 }: listComponentProps): React.ReactNode {
   return (
@@ -18,7 +17,7 @@ export default function ListComponent({
       <div className="flex items-center space-x-4 rtl:space-x-reverse">
         <div className="flex-shrink-0"></div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-primary-switch truncate ">
+          <p className="text-sm font-medium text-black-white truncate ">
             {title}
           </p>
           <p className="text-sm text-gray-500 truncate dark:text-gray-300">

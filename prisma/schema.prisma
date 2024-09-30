@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Comment {
+  id          BigInt    @id @default(autoincrement())
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  modified_at DateTime? @default(now()) @db.Timestamptz(6)
+  board_id    BigInt
+  user_id     BigInt
+  comment     String
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model Like {
+  board_id   BigInt    @default(autoincrement())
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  id         BigInt    @id
+  user_id    BigInt
+  Board      FreeBoard @relation(fields: [board_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model User {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  user_name  String   @db.VarChar
+  nick_name  String   @unique @db.VarChar
+  sex        String   @db.VarChar
+  age        Int      @db.SmallInt
+  address    Json
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model FreeBoard {
+  id          BigInt    @id(map: "board_pkey") @default(autoincrement())
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  modified_at DateTime? @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamptz(6)
+  title       String    @default("") @db.VarChar
+  body        String    @default("")
+  user_id     BigInt
+  Like        Like[]
+}

@@ -27,21 +27,39 @@ export default function MobileNavbar() {
         <NavbarToggle className="ml-2 focus:bg-transparent focus:ring-gray-700" />
       </div>
       <NavbarCollapse>
-        <NavbarLink className="md:hover:text-primary" href="/">
-          Home
-        </NavbarLink>
-        <NavbarLink className="md:hover:text-primary" href="/">
-          About
-        </NavbarLink>
-        <NavbarLink className="md:hover:text-primary" href="/">
-          Services
-        </NavbarLink>
-        <NavbarLink className="md:hover:text-primary" href="/">
-          Pricing
-        </NavbarLink>
-        <NavbarLink className="md:hover:text-primary" href="/">
-          Contact
-        </NavbarLink>
+        <li>
+          <a
+            href=""
+            className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-accent "
+            aria-current="page"
+          >
+            Home
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-accent "
+          >
+            About
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-accent "
+          >
+            Services
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-accent "
+          >
+            Contact
+          </a>
+        </li>
       </NavbarCollapse>
     </Navbar>
   );

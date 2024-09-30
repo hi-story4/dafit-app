@@ -21,7 +21,7 @@ const config: Config = {
       colors: {
         primary: "#c9fd13",
         "primary-accent": "#8de300",
-        "primary-switch": "var(--primary-color)",
+        "primary-switch": "var(--color-primary)",
         "black-white": "var(--color-fill)",
         background: "#f2f2f2",
         accent: "hsl(240, 3.7%, 15.9%)",

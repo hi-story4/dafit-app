@@ -1,3 +1,4 @@
+import RoundButton from "@/app/component/buttons/round-button";
 import ListComponent from "@/app/component/list";
 
 export default function localBoard() {
@@ -22,6 +23,9 @@ export default function localBoard() {
             heart={12}
           />
         </ul>
+      </div>
+      <div className="fixed bottom-5 right-5  shadow-lg">
+        <RoundButton />
       </div>
     </div>
   );

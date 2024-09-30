@@ -1,8 +1,18 @@
 // import RoundButton from "@/app/component/buttons/round-button";
+import { getFreeBoards } from "@/app/api/board/route";
 import ListComponent from "@/app/component/list";
 import SearchBar from "@/app/component/searchBar";
+import Link from "next/link";
 
 export default function freeBoard() {
+  async function getFreeBoard() {
+    const page = 10;
+    const lastId = 1;
+    const boards = await getFreeBoards(page, lastId);
+
+    
+  }
+
   return (
     <div className="w-full grid place-items-center">
       <h1>자유 게시판</h1>
@@ -30,6 +40,7 @@ export default function freeBoard() {
         </ul>
       </div>
       {/* <RoundButton /> */}
+      <Link href="/board/free/detail">글쓰기</Link>
     </div>
   );
 }
