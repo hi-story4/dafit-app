@@ -1,17 +1,17 @@
-import DangerAlert from "@/app/component/alert/danger-alert";
+"use server";
+
 import { PrismaClient } from "@prisma/client";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
 
-const post = z.object({
-  title: z.string(),
-  message: z.string(),
-});
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const page = parseInt(searchParams.get("page") || "15", 10);
+  const lastId = parseInt(searchParams.get("lastId") || "0", 10);
 
-export async function getFreeBoards(page: number, lastId: number) {
   const freeboards = await prisma.freeBoard.findMany({
     orderBy: {
       created_at: "desc",
@@ -19,34 +19,63 @@ export async function getFreeBoards(page: number, lastId: number) {
     take: page,
     skip: lastId ? 1 : 0,
     ...(lastId && { cursor: { id: lastId } }),
-  });
-  return freeboards;
-}
-
-export async function POST(request: Request) {
-  // const { title, message } = schema.parse(await request.body);
-  // const { title, message } = await request.formData;
-  const formData = await request.formData();
-  const title = formData.get("title");
-  const message = formData.get("message");
-  const parsedData = post.parse({
-    title: title,
-    message: message,
-  });
-
-  const response = await prisma.freeBoard.create({
-    data: {
-      title: parsedData.title,
-      body: parsedData.message,
-      user_id: BigInt(1),
+    select: {
+      id: true,
+      title: true,
+      body: true,
+      like_num: true,
+      User: {
+        select: {
+          nick_name: true,
+        },
+      },
     },
   });
-
+  console.log("freeboards" + freeboards);
   return NextResponse.json(
     JSON.stringify(
-      response,
+      freeboards,
       (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
     ),
     { status: 200 }
   );
+}
+export async function POST(request: NextRequest) {
+  const formData = await request.formData();
+  const title = formData.get("title");
+  const message = formData.get("message");
+
+  const post = z.object({
+    title: z.string(),
+    message: z.string(),
+  });
+
+  const parsedData = post.parse({
+    title: title,
+    message: message,
+  });
+  try {
+    const response = await prisma.freeBoard.create({
+      data: {
+        title: parsedData.title,
+        body: parsedData.message,
+        user_id: BigInt(1),
+      },
+    });
+
+    revalidatePath("/board/free");
+    return NextResponse.json(
+      JSON.stringify(
+        response,
+        (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+      ),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error creating post:", error);
+    return NextResponse.json(
+      { error: "Failed to create post" },
+      { status: 500 }
+    );
+  }
 }

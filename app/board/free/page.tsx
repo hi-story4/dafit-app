@@ -1,17 +1,40 @@
 // import RoundButton from "@/app/component/buttons/round-button";
-import { getFreeBoards } from "@/app/api/board/route";
 import ListComponent from "@/app/component/list";
+import Loading from "@/app/component/loading";
 import SearchBar from "@/app/component/searchBar";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export default function freeBoard() {
-  async function getFreeBoard() {
-    const page = 10;
-    const lastId = 1;
-    const boards = await getFreeBoards(page, lastId);
+interface Board {
+  id: string;
+  title: string;
+  body: string;
+  User: {
+    nick_name: string;
+  };
+  like_num: number;
+}
 
-    
+async function fetchBoards(page: number, lastId: number) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/board?page=${page}&lastId=${lastId}`,
+    {
+      method: "GET",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch boards ");
   }
+  return response.json();
+}
+
+export default async function freeBoard() {
+  const initialPage = 15;
+  const initialLastId = 0;
+  const response = await fetchBoards(initialPage, initialLastId);
+
+  const boards: Board[] = JSON.parse(response);
 
   return (
     <div className="w-full grid place-items-center">
@@ -25,18 +48,23 @@ export default function freeBoard() {
           <SearchBar />
         </div>
         <ul className="w-full mx-auto  divide-y divide-gray-200 dark:divide-gray-700">
-          <ListComponent
-            title="title"
-            nickname="nickname"
-            view={13}
-            heart={12}
-          />
-          <ListComponent
-            title="title"
-            nickname="nickname"
-            view={13}
-            heart={12}
-          />
+          <Suspense fallback={<Loading />}>
+            {boards.length > 0 ? (
+              boards.map((board: Board) => (
+                <ListComponent
+                  id={board.id}
+                  title={board.title}
+                  body={board.body}
+                  nickname={board.User.nick_name}
+                  heart={board.like_num}
+                />
+              ))
+            ) : (
+              <p className="text-center py-4 text-gray-500">
+                글을 작성해주세요!
+              </p>
+            )}
+          </Suspense>
         </ul>
       </div>
       {/* <RoundButton /> */}
