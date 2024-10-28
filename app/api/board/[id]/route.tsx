@@ -7,8 +7,9 @@ const prisma = new PrismaClient();
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  props: { params: Promise<{ id: string }> }
 ) {
+  const params = await props.params;
   const paramId = parseInt(params.id);
 
   const freeboards = await getFreeBoardAndUser(paramId);

@@ -1,5 +1,5 @@
 import RoundButton from "@/app/component/buttons/round-button";
-import ListComponent from "@/app/component/list";
+import ListComponent from "@/app/component/card/card";
 
 export default function localBoard() {
   return (
@@ -10,8 +10,20 @@ export default function localBoard() {
       </div>
       <div className="w-full justify-center items-center mx-auto">
         <ul className="w-full mx-auto max-w-md md:max-w-2xl lg:max-w-3xl xl:max-w-4xl divide-y divide-gray-200 dark:divide-gray-700">
-          <ListComponent title="title" nickname="nickname" heart={12} />
-          <ListComponent title="title" nickname="nickname" heart={12} />
+          <ListComponent
+            title="title"
+            heart={12}
+            id="2"
+            body="body"
+            created_at="created_at"
+          />
+          <ListComponent
+            title="title"
+            heart={12}
+            id="1"
+            body="body"
+            created_at="created_at"
+          />
         </ul>
       </div>
       <div className="fixed bottom-5 right-5  shadow-lg">

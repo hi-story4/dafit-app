@@ -24,11 +24,7 @@ export async function GET(request: NextRequest) {
       title: true,
       body: true,
       like_num: true,
-      User: {
-        select: {
-          nick_name: true,
-        },
-      },
+      created_at: true,
     },
   });
   console.log("freeboards" + freeboards);
@@ -40,6 +36,7 @@ export async function GET(request: NextRequest) {
     { status: 200 }
   );
 }
+
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const title = formData.get("title");

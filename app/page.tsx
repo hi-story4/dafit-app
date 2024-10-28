@@ -1,4 +1,4 @@
-import BoardCardComponent from "./component/boardcard";
+import BoardCardComponent from "./component/card/boardcard";
 import WideLogo from "./component/logo/logo2:1";
 
 export default function Home() {

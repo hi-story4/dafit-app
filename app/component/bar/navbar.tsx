@@ -1,14 +1,11 @@
 import {
-  Button,
   Navbar,
   NavbarBrand,
   NavbarCollapse,
-  NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
 import Image from "next/image";
-import React from "react";
-import ButtonBlack from "./buttons/button-black";
+import ButtonBlack from "../buttons/button-black";
 
 export default function MobileNavbar() {
   return (
